@@ -8,7 +8,7 @@ $ docker-compose build
 $ docker-compose up
 ```
 
-## Docker Only
+## Docker
 
 ```
 $ docker build . -t $IMAGE_NAME
