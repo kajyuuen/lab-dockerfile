@@ -22,11 +22,11 @@ exec:
 all-clean:
 	make stop
 	make container-clean
-	docker rmi `docker images -q kajyuuen-lab-image`
+	make image-clean
 
 .PHONY: image-clean
 image-clean:
-	docker rmi `docker images -q kajyuuen-lab-image`
+	docker rmi `docker images -q $(IMAGE_NAME)`
 
 .PHONY: container-clean
 container-clean:
@@ -46,5 +46,5 @@ config:
 	@echo TYPE: $(TYPE)
 	@echo IMAGE_NAME: $(IMAGE_NAME)
 	@echo CONTAINER_NAME: $(CONTAINER_NAME)
-	@echo CONTAINER_DIRECTORY: $(CONTAINER_DIRECTORY)
+	@echo HOST_DIRECTORY: $(HOST_DIRECTORY)
 	@echo HOST_PORT: $(HOST_PORT)
