@@ -19,6 +19,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
          tk-dev libgdbm-dev \
          libc6-dev \
          libbz2-dev \
+         gosu \
          libpng-dev && \
      rm -rf /var/lib/apt/lists/*
 
@@ -34,3 +35,7 @@ RUN ln -s /usr/bin/python3 /usr/bin/python & \
 WORKDIR /code
 ADD requirements.txt /code
 RUN pip install -r requirements.txt
+
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]

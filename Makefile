@@ -1,6 +1,8 @@
-TYPE = GPU
-IMAGE_NAME = $(USER)-lab-image
-CONTAINER_NAME = $(USER)-lab-container
+TYPE=GPU
+IMAGE_NAME=$(USER)-lab-image
+CONTAINER_NAME=$(USER)-lab-container-000
+USER_ID=$(shell id -u)
+USER_GROUP=$(shell id -g)
 
 .PHONY: build
 build:
@@ -9,13 +11,14 @@ build:
 .PHONY: run
 run:
 	nvidia-docker run -itd --name $(CONTAINER_NAME) \
+	-e LOCAL_UID=$(USER_ID) -e LOCAL_GID=$(USER_GROUP) \
 	-v $(HOST_DIRECTORY):/code \
 	-p $(HOST_PORT):8888 $(IMAGE_NAME) \
 	jupyter notebook --ip=0.0.0.0 --port=8888 --allow-root --notebook-dir=/code
 
 .PHONY: exec
 exec:
-	docker exec -it $(CONTAINER_NAME) /bin/bash
+	docker exec --user $(USER_ID):$(USER_GROUP) -it $(CONTAINER_NAME) /bin/bash
 
 # Clean
 .PHONY: all-clean
